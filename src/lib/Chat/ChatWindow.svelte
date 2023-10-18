@@ -15,7 +15,7 @@
 	import StatusMessage from '$lib/Generic/StatusMessage.svelte';
 
 	// User Action variables
-	let message: string = import.meta.env.VITE_MODE === 'DEV' ? 'a' : '',
+	let message: '',
 		olderMessages: string,
 		newerMessages: string,
 		showEmoji = false,
@@ -115,7 +115,7 @@
 			});
 
 		messages = messages;
-		message = import.meta.env.VITE_MODE === 'DEV' ? message + 'a' : '';
+		message = '';
 
 		setTimeStamp(selectedChat, selectedPage);
 	};
