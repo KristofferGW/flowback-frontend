@@ -13,6 +13,9 @@
 	import { faSmile } from '@fortawesome/free-solid-svg-icons/faSmile';
 	import { statusMessageFormatter } from '$lib/Generic/StatusMessage';
 	import StatusMessage from '$lib/Generic/StatusMessage.svelte';
+	// import for emojis
+	import { fly } from 'svelte/transition';
+	import { each } from 'svelte/internal';
 
 	// User Action variables
 	let message: string = import.meta.env.VITE_MODE === 'DEV' ? 'a' : '',
@@ -36,6 +39,39 @@
 		previewDirect: PreviewMessage[] = [],
 		previewGroup: PreviewMessage[] = [],
 		isLookingAtOlderMessages: boolean;
+
+	// added variables for emoji modal
+	let emojiSets = [
+		{ type: "faces", minVal:128512, maxVal: 128580 },
+		{ type: "faces2", minVal:129296, maxVal: 129327},
+		{ type: "body", minVal:128066, maxVal: 128080},
+		{ type: "animals", minVal:129408, maxVal: 129442},
+		{ type: "transport", minVal:128640, maxVal: 128676},
+		{ type: "misc", minVal:129494, maxVal: 129535},
+	]; 
+
+	let selectedSet = 0;
+	// $: console.log(selectedSet)
+	$: min = emojiSets[selectedSet].minVal;
+	$: max = emojiSets[selectedSet].maxVal;
+
+	let emojis = [];
+
+	$: for (let i = min; i <= max; i++) {
+		//console.log(String.fromCharCode(i))
+		emojis = [...emojis, String.fromCodePoint(i)]
+	}
+
+	const clearEmojiMenu = () => emojis = []; 
+
+	const chooseEmojiSet = (e) => {	
+		selectedSet = Number(e.target.dataset.id);
+		clearEmojiMenu()
+	}
+
+	let setIcons = [128512, 129313, 128074, 129417, 128664, 129504];
+
+	// let modalOpen = false;
 
 	$: (selectedPage || selectedChat) && getRecentMesseges();
 
@@ -135,6 +171,7 @@
 		if (newerMessages) isLookingAtOlderMessages = true;
 		else isLookingAtOlderMessages = false;
 	}
+
 </script>
 
 {#if selectedChat !== null}
@@ -208,6 +245,16 @@
 			<Button type="submit" Class="rounded-full pl-3 pr-3 pt-3 pb-3 h-1/2"
 				><Fa icon={faPaperPlane} /></Button
 			>
+
+			{#if showEmoji}
+				<div transition:fly={{ y: -30 }}>
+					<header>
+						{#each setIcons as icon, i}
+							<div data-id={i} on:click={chooseEmojiSet}>{String.fromCodePoint(icon)}</div>
+						{/each}
+					</header>
+				</div>
+			{/if}
 		</form>
 	</div>
 {:else}
