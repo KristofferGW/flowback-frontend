@@ -16,6 +16,7 @@
 	// import for emojis
 	import { fly } from 'svelte/transition';
 	import { each } from 'svelte/internal';
+	import { text } from '@sveltejs/kit';
 
 	// User Action variables
 	let message: string = import.meta.env.VITE_MODE === 'DEV' ? 'a' : '',
@@ -74,11 +75,10 @@
 
 	let setIcons = [128512, 129313, 128074, 129417, 128664, 129504];
 
-	// let modalOpen = false;
-
 	const addEmoji = (e: any) => {
 		console.log('addEmoji was clicked');
-		message += e.target.textContent
+		message += e.target.textContent;
+
 	}
 
 	$: (selectedPage || selectedChat) && getRecentMesseges();
@@ -280,18 +280,6 @@
 				><Fa icon={faPaperPlane} /></Button
 			>
 
-			<!-- {#if showEmoji}
-				<div
-					id="icons"
-					class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-md flex items-center justify-center"
-				>
-					<header>
-						{#each setIcons as icon, i}
-							<div data-id={i} on:click={chooseEmojiSet} class="cursor-pointer">{String.fromCodePoint(icon)}</div>
-						{/each}
-					</header>
-				</div>
-			{/if} -->
 		</form>
 	</div>
 {:else}
