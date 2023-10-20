@@ -55,7 +55,7 @@
 	$: min = emojiSets[selectedSet].minVal;
 	$: max = emojiSets[selectedSet].maxVal;
 
-	let emojis = [];
+	let emojis: string[] = [];
 
 	$: for (let i = min; i <= max; i++) {
 		//console.log(String.fromCharCode(i))
@@ -64,14 +64,22 @@
 
 	const clearEmojiMenu = () => emojis = []; 
 
-	const chooseEmojiSet = (e) => {	
+	const chooseEmojiSet = (e: any) => {	
 		selectedSet = Number(e.target.dataset.id);
-		clearEmojiMenu()
+		console.log('chooseEmojiSet was clicked');
+		console.log('selectedSet', selectedSet);
+		console.log('emojis', emojis);
+		clearEmojiMenu();
 	}
 
 	let setIcons = [128512, 129313, 128074, 129417, 128664, 129504];
 
 	// let modalOpen = false;
+
+	const addEmoji = (e: any) => {
+		console.log('addEmoji was clicked');
+		message += e.target.textContent
+	}
 
 	$: (selectedPage || selectedChat) && getRecentMesseges();
 
@@ -251,11 +259,15 @@
 						class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-md flex items-center"
 					>
 						{#each setIcons as icon, i}
-							<div data-id={i} on:click={chooseEmojiSet} class="cursor-pointer">
+							<!-- <div data-id={i} on:click={chooseEmojiSet} class="cursor-pointer"> -->
+							<div data-id={i} on:click={chooseEmojiSet} class="cursor-pointer">	
 								{String.fromCodePoint(icon)}
 							</div>
 						{/each}
 					</div>
+					{#each emojis as emoji}
+						<span on:click={addEmoji}>{emoji}</span>
+					{/each}
 				{/if}
 			</div>
 			
