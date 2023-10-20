@@ -254,20 +254,24 @@
 				{/if}
 			
 				{#if showEmoji}
+					
 					<div
 						id="icons"
 						class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-md flex items-center"
 					>
+					<header>
 						{#each setIcons as icon, i}
 							<!-- <div data-id={i} on:click={chooseEmojiSet} class="cursor-pointer"> -->
 							<div data-id={i} on:click={chooseEmojiSet} class="cursor-pointer">	
 								{String.fromCodePoint(icon)}
 							</div>
 						{/each}
+						<div id="closer-icon" on:click={() => showEmoji = false}>X</div>
+					</header>
 					</div>
-					{#each emojis as emoji}
-						<span on:click={addEmoji}>{emoji}</span>
-					{/each}
+						{#each emojis as emoji}
+							<span on:click={addEmoji}>{emoji}</span>
+						{/each}
 				{/if}
 			</div>
 			
