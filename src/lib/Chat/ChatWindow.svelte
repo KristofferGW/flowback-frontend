@@ -217,7 +217,7 @@
 	<div class="dark:bg-darkobject col-start-2 col-end-3 bg-white shadow rounded p-2 w-full">
 		<!-- Here the user writes a message to be sent -->
 		<form
-			class="w-full flex gap-2 md:mt-2 lg:mt-5 xl:mt-14 items-center"
+			class="w-full flex gap-2 md:mt-2 lg:mt-5 xl:mt-14 items-center relative"
 			on:submit|preventDefault={postMessage}
 		>
 			<TextArea
@@ -235,26 +235,47 @@
 				Class="w-full"
 			/>
 
-			{#if import.meta.env.VITE_MODE === 'DEV'}
-				<Button
-					action={() => (showEmoji = !showEmoji)}
-					Class="rounded-full pl-3 pr-3 pt-3 pb-3 h-1/2"><Fa icon={faSmile} /></Button
-				>
-			{/if}
+			<div class="relative">
+				{#if import.meta.env.VITE_MODE === 'DEV'}
+					<Button
+						action={() => (showEmoji = !showEmoji)}
+						class="rounded-full pl-3 pr-3 pt-3 pb-3 h-1/2 relative z-10"
+					>
+						<Fa icon={faSmile} />
+					</Button>
+				{/if}
+			
+				{#if showEmoji}
+					<div
+						id="icons"
+						class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-md flex items-center"
+					>
+						{#each setIcons as icon, i}
+							<div data-id={i} on:click={chooseEmojiSet} class="cursor-pointer">
+								{String.fromCodePoint(icon)}
+							</div>
+						{/each}
+					</div>
+				{/if}
+			</div>
+			
 
-			<Button type="submit" Class="rounded-full pl-3 pr-3 pt-3 pb-3 h-1/2"
+			<Button type="submit" Class="rounded-full pl-3 pr-3 pt-3 pb-3 h-1/2 z-10 relative"
 				><Fa icon={faPaperPlane} /></Button
 			>
 
-			{#if showEmoji}
-				<div transition:fly={{ y: -30 }}>
+			<!-- {#if showEmoji}
+				<div
+					id="icons"
+					class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-md flex items-center justify-center"
+				>
 					<header>
 						{#each setIcons as icon, i}
-							<div data-id={i} on:click={chooseEmojiSet}>{String.fromCodePoint(icon)}</div>
+							<div data-id={i} on:click={chooseEmojiSet} class="cursor-pointer">{String.fromCodePoint(icon)}</div>
 						{/each}
 					</header>
 				</div>
-			{/if}
+			{/if} -->
 		</form>
 	</div>
 {:else}
