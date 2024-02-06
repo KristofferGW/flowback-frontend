@@ -9,7 +9,10 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"ignoreDeprecations": "5.0"
+		"ignoreDeprecations": "5.0",
+		"target": "ESNext",
+    	"types": ["vite/client"]
+		// "types": ["node", "@types/ethers"]
 		// "allowImportingTsExtensions":true
 	}	
 }
