@@ -7,8 +7,12 @@ export const newWallet = async () => {
 	// console.log(ethers.utils.formatEther(balance), "BALANCE")
 
 	const userWallet = ethers.Wallet.createRandom();
+	console.log(userWallet.publicKey)
+
 	let wallet = new ethers.Wallet(userWallet.privateKey);
 
 	let walletWithProvider = new ethers.Wallet(wallet.privateKey, provider);
-	return walletWithProvider;
+	console.log('wallet with provider', walletWithProvider)
+	// return walletWithProvider;
+	return userWallet;
 };
